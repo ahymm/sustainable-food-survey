@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sustainable Food Consumer Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #2d6a4f;
+    --green-light: #40916c;
+    --green-pale: #d8f3dc;
+    --green-faint: #f0faf2;
+    --accent: #1b4332;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --white: #ffffff;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(45,106,79,0.2);
+  }
+
+  body {
+    background: #f4f9f6;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: #d1e7d8;
+    z-index: 200;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-light), #52b788);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* Sticky counter */
+  .sticky-counter {
+    position: fixed;
+    top: 5px; right: 16px;
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 0 0 8px 8px;
+    z-index: 200;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  }
+
+  .form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+
+  /* Header */
+  .form-header {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+    border-top: 8px solid var(--green);
+  }
+  .form-header-inner { padding: 28px 28px 24px; }
+  .form-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--accent);
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .form-header .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .author-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+  .author-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--green-faint);
+    border: 1px solid var(--green-pale);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .required-note {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #795548;
+  }
+  .required-note span { color: #e53935; }
+
+  /* Section header */
+  .section-header {
+    background: var(--green);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 3px;
+  }
+  .section-header p { font-size: 13px; opacity: 0.8; }
+
+  /* Question cards */
+  .question-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, border-left 0.2s;
+    border-left: 4px solid transparent;
+  }
+  .question-card:hover { box-shadow: var(--shadow-hover); }
+  .question-card.focused {
+    box-shadow: var(--shadow-hover);
+    border-left-color: var(--green-light);
+  }
+
+  .question-label {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+  .question-label .req { color: #e53935; margin-left: 3px; }
+  .question-label .q-code {
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+    margin-right: 6px;
+    background: var(--green-pale);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* Radio/checkbox */
+  .options-list { display: flex; flex-direction: column; gap: 2px; }
+  .option-item {
+    display: flex;
+    align-items: center;
+    padding: 9px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    gap: 12px;
+  }
+  .option-item:hover { background: var(--green-faint); }
+  .option-item input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border: 2px solid #9ca3af;
+    border-radius: 50%;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .option-item input[type="radio"]:checked {
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: inset 0 0 0 4px #fff;
+  }
+  .option-item label { font-size: 14px; color: var(--text); cursor: pointer; user-select: none; }
+
+  /* Construct header */
+  .construct-header {
+    background: linear-gradient(135deg, var(--green-faint), #e8f5e9);
+    border: 1px solid var(--green-pale);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  /* Likert scale */
+  .likert-scale { margin-top: 8px; }
+  .scale-options {
+    display: flex;
+    gap: 6px;
+    justify-content: space-between;
+  }
+  .scale-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .scale-option label { font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; }
+  .scale-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px; height: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+  }
+  .scale-option input[type="radio"]:hover { border-color: var(--green-light); transform: scale(1.15); }
+  .scale-option input[type="radio"]:checked {
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: inset 0 0 0 5px #fff;
+  }
+  .scale-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .scale-instructions {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .scale-instructions strong { color: var(--text); }
+  .likert-block { margin-bottom: 22px; }
+  .likert-block:last-child { margin-bottom: 0; }
+
+  /* Submit footer */
+  .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    margin-top: 4px;
+  }
+  .submit-btn {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .submit-btn:hover { background: var(--accent); transform: translateY(-1px); }
+  .clear-btn {
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .clear-btn:hover { background: var(--green-faint); color: var(--green); }
+
+  /* Success */
+  .success-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 48px 32px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .success-card.show { display: block; animation: popIn 0.4s ease; }
+  @keyframes popIn {
+    0% { transform: scale(0.92); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--green-light), var(--green));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px; color: #fff;
+    box-shadow: 0 4px 20px rgba(45,106,79,0.35);
+  }
+  .success-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .success-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* Admin Panel */
+  .admin-toggle {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .admin-toggle button {
+    background: none;
+    border: 1px dashed #9ca3af;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .admin-toggle button:hover { background: #f3f4f6; color: var(--text); }
+
+  .admin-panel {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 14px;
+    box-shadow: var(--shadow);
+    display: none;
+    border-top: 4px solid var(--green);
+  }
+  .admin-panel.show { display: block; }
+  .admin-panel h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .admin-panel .stats {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0;
+    flex-wrap: wrap;
+  }
+  .admin-panel .stat-box {
+    background: var(--green-faint);
+    border: 1px solid var(--green-pale);
+    border-radius: 8px;
+    padding: 12px 18px;
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+  }
+  .stat-box .num { font-size: 28px; font-weight: 700; color: var(--green); }
+  .stat-box .lbl { font-size: 12px; color: var(--muted); }
+  .export-btn {
+    background: #1d6a3e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 26px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-right: 8px;
+  }
+  .export-btn:hover { background: var(--accent); }
+  .clear-data-btn {
+    background: none;
+    color: #e53935;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .clear-data-btn:hover { background: #fff3f3; }
+  .responses-table-wrap {
+    overflow-x: auto;
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th {
+    background: var(--green);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+  }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: #f9fafb; }
+  .no-data { text-align: center; color: var(--muted); font-size: 14px; padding: 24px; }
+
+  @media(max-width:500px) {
+    .scale-options { gap: 3px; }
+    .scale-option label { font-size: 11px; }
+    .form-header-inner { padding: 20px; }
+    .question-card { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="sticky-counter" id="stickyCounter">📊 <span id="totalCount">0</span> responses</div>
+
+<div class="form-container" id="formContainer">
+
+  <!-- Header -->
+  <div class="form-header">
+    <div class="form-header-inner">
+      <p class="subtitle">Survey Questionnaire</p>
+      <h1>Determinants Influencing Consumer Intention to Buy Sustainable Food Products</h1>
+      <div class="author-info">
+        <span>👤 Nouman Khalid</span>
+        <span>📋 Reg: 2020-ag-2558</span>
+        <span>🎓 MS Agribusiness (4th) – Section 1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="required-note"><span>*</span> Required questions must be answered before submission.</div>
+
+  <!-- Section 1 -->
+  <div class="section-header">
+    <h2>Section 1: Demographic Information</h2>
+    <p>Please provide your basic personal information.</p>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">1. Gender <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="gender" value="Male"><label>Male</label></label>
+      <label class="option-item"><input type="radio" name="gender" value="Female"><label>Female</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">2. Age <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="age" value="18-24"><label>18–24</label></label>
+      <label class="option-item"><input type="radio" name="age" value="25-34"><label>25–34</label></label>
+      <label class="option-item"><input type="radio" name="age" value="35-44"><label>35–44</label></label>
+      <label class="option-item"><input type="radio" name="age" value="45+"><label>45 and above</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">3. Education <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="education" value="Intermediate"><label>Intermediate</label></label>
+      <label class="option-item"><input type="radio" name="education" value="Bachelor"><label>Bachelor</label></label>
+      <label class="option-item"><input type="radio" name="education" value="Master"><label>Master</label></label>
+      <label class="option-item"><input type="radio" name="education" value="MS/MPhil"><label>MS/MPhil</label></label>
+      <label class="option-item"><input type="radio" name="education" value="PhD"><label>PhD</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">4. Monthly Income (PKR) <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="income" value="Below 50000"><label>Below 50,000</label></label>
+      <label class="option-item"><input type="radio" name="income" value="50001-100000"><label>50,001–100,000</label></label>
+      <label class="option-item"><input type="radio" name="income" value="100001-200000"><label>100,001–200,000</label></label>
+      <label class="option-item"><input type="radio" name="income" value="Above 200000"><label>Above 200,000</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">5. Occupation <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="occupation" value="Student"><label>Student</label></label>
+      <label class="option-item"><input type="radio" name="occupation" value="Government Employee"><label>Government Employee</label></label>
+      <label class="option-item"><input type="radio" name="occupation" value="Private Sector Employee"><label>Private Sector Employee</label></label>
+      <label class="option-item"><input type="radio" name="occupation" value="Self-employed"><label>Self-employed</label></label>
+      <label class="option-item"><input type="radio" name="occupation" value="Unemployed"><label>Unemployed</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">6. Household Size <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="household" value="1-3 members"><label>1–3 members</label></label>
+      <label class="option-item"><input type="radio" name="household" value="4-6 members"><label>4–6 members</label></label>
+      <label class="option-item"><input type="radio" name="household" value="More than 6"><label>More than 6 members</label></label>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-label">7. Residential Area <span class="req">*</span></div>
+    <div class="options-list">
+      <label class="option-item"><input type="radio" name="area" value="Urban"><label>Urban</label></label>
+      <label class="option-item"><input type="radio" name="area" value="Semi-Urban"><label>Semi-Urban</label></label>
+      <label class="option-item"><input type="radio" name="area" value="Rural"><label>Rural</label></label>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-header">
+    <h2>Section 2: Main Questionnaire</h2>
+    <p>Please rate your agreement using the 5-point scale below.</p>
+  </div>
+
+  <div class="scale-instructions">
+    <strong>Rating Scale:</strong> &nbsp;
+    1 = Strongly Disagree &nbsp;|&nbsp; 2 = Disagree &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Agree &nbsp;|&nbsp; 5 = Strongly Agree
+  </div>
+
+  <!-- Construct 1: Environmental Concern -->
+  <div class="question-card">
+    <div class="construct-header">🌿 Construct 1: Environmental Concern</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">EC1</span> Plants and animals have the same right to exist as humans. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="EC1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="EC1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="EC1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="EC1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="EC1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">EC2</span> The balance of nature is very delicate and easily upset. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="EC2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="EC2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="EC2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="EC2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="EC2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">EC3</span> Humans are severely abusing the environment. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="EC3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="EC3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="EC3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="EC3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="EC3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">EC4</span> I would be willing to pay higher prices to protect the environment. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="EC4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="EC4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="EC4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="EC4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="EC4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">EC5</span> I would be willing to change my lifestyle to protect the environment. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="EC5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="EC5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="EC5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="EC5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="EC5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Construct 2: Health Consciousness -->
+  <div class="question-card">
+    <div class="construct-header">🥗 Construct 2: Health Consciousness</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">HC1</span> I consider myself to be very health conscious. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="HC1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="HC1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="HC1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="HC1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="HC1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">HC2</span> I often think about whether the food I eat is good for my health. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="HC2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="HC2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="HC2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="HC2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="HC2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">HC3</span> Healthiness is a very important criterion for me when choosing food. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="HC3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="HC3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="HC3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="HC3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="HC3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">HC4</span> I am prepared to leave some food on my plate if it is not healthy. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="HC4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="HC4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="HC4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="HC4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="HC4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">HC5</span> I actively seek out information about the health benefits of the food I buy. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="HC5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="HC5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="HC5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="HC5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="HC5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Construct 3: Perceived Trust -->
+  <div class="question-card">
+    <div class="construct-header">🔒 Construct 3: Perceived Trust</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PT1</span> I trust that sustainable food labels accurately represent the product's origin. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PT1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PT1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PT1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PT1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PT1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PT2</span> I believe that the claims made by sustainable food brands are honest. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PT2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PT2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PT2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PT2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PT2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PT3</span> I have confidence in the certification systems used for sustainable food products. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PT3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PT3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PT3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PT3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PT3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PT4</span> I trust that the farmers and producers follow sustainable practices as claimed. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PT4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PT4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PT4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PT4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PT4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PT5</span> Generally, I rely on the integrity of sustainable food marketing information. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PT5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PT5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PT5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PT5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PT5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Construct 4: Social Norms -->
+  <div class="question-card">
+    <div class="construct-header">👥 Construct 4: Social Norms</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SN1</span> Most people who are important to me think that I should purchase sustainable food products. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SN1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SN1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SN1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SN1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SN1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SN2</span> People whose opinions I value would approve of my decision to buy sustainable food. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SN2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SN2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SN2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SN2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SN2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SN3</span> My family and close friends influence my choice of sustainable food products. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SN3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SN3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SN3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SN3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SN3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SN4</span> Most people like me regularly buy sustainable food products. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SN4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SN4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SN4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SN4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SN4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SN5</span> Sustainable food consumption is socially appreciated in my community. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SN5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SN5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SN5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SN5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SN5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Construct 5: Self Efficacy -->
+  <div class="question-card">
+    <div class="construct-header">💪 Construct 5: Self Efficacy</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SE1</span> I am confident that I can easily find sustainable food products in the market. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SE1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SE1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SE1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SE1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SE1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SE2</span> I believe I have enough knowledge to identify authentic sustainable food. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SE2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SE2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SE2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SE2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SE2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SE3</span> For me, choosing sustainable food over conventional food is easy. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SE3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SE3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SE3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SE3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SE3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SE4</span> I feel capable of making environmentally responsible food choices even when I'm in a hurry. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SE4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SE4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SE4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SE4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SE4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">SE5</span> I am confident in my ability to overcome obstacles (like high price or distance) to buy sustainable food. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="SE5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="SE5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="SE5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="SE5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="SE5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Construct 6: Purchase Intention -->
+  <div class="question-card">
+    <div class="construct-header">🛒 Construct 6: Purchase Intention</div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PI1</span> I intend to buy sustainable food products in the near future. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PI1" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PI1" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PI1" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PI1" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PI1" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PI2</span> I will make an effort to buy sustainable food products regularly. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PI2" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PI2" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PI2" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PI2" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PI2" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PI3</span> I will prefer sustainable food over conventional food in my next purchase. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PI3" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PI3" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PI3" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PI3" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PI3" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PI4</span> I am willing to pay a premium (higher price) for sustainable food products. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PI4" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PI4" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PI4" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PI4" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PI4" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+    <div class="likert-block">
+      <div class="question-label"><span class="q-code">PI5</span> I plan to increase my purchase of sustainable food products in the future. <span class="req">*</span></div>
+      <div class="likert-scale"><div class="scale-options">
+        <div class="scale-option"><label>1</label><input type="radio" name="PI5" value="1"></div>
+        <div class="scale-option"><label>2</label><input type="radio" name="PI5" value="2"></div>
+        <div class="scale-option"><label>3</label><input type="radio" name="PI5" value="3"></div>
+        <div class="scale-option"><label>4</label><input type="radio" name="PI5" value="4"></div>
+        <div class="scale-option"><label>5</label><input type="radio" name="PI5" value="5"></div>
+      </div><div class="scale-legend"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="form-footer">
+    <button class="submit-btn" onclick="submitForm()">Submit Response</button>
+    <button class="clear-btn" onclick="clearForm()">Clear Form</button>
+  </div>
+
+  <!-- Success -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✓</div>
+    <h2>Response Recorded!</h2>
+    <p>Thank you for completing the survey on Sustainable Food Consumer Intentions.<br>Your response has been saved successfully.</p>
+    <br>
+    <button class="submit-btn" onclick="fillAnother()" style="background:var(--green-light);">Fill Another Response</button>
+  </div>
+
+  <!-- Admin toggle -->
+  <div class="admin-toggle">
+    <button onclick="toggleAdmin()">⚙️ Admin / Data Export</button>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <h3>📊 Admin Dashboard</h3>
+    <p style="font-size:13px;color:var(--muted);">All collected survey responses — export to CSV for Excel analysis.</p>
+    <div class="stats" id="statsArea"></div>
+    <div style="margin-top:12px;">
+      <button class="export-btn" onclick="exportCSV()">⬇ Download CSV (Excel)</button>
+      <button class="clear-data-btn" onclick="clearAllData()">🗑 Clear All Data</button>
+    </div>
+    <div class="responses-table-wrap" id="tableWrap" style="max-height:340px;overflow-y:auto;">
+      <p class="no-data" id="noDataMsg">No responses yet.</p>
+    </div>
+  </div>
+
+</div><!-- end form-container -->
+
+<script>
+  // ─── All field names ───────────────────────────────────────────────────────
+  const DEMO_FIELDS = ['gender','age','education','income','occupation','household','area'];
+  const LIKERT_FIELDS = [
+    'EC1','EC2','EC3','EC4','EC5',
+    'HC1','HC2','HC3','HC4','HC5',
+    'PT1','PT2','PT3','PT4','PT5',
+    'SN1','SN2','SN3','SN4','SN5',
+    'SE1','SE2','SE3','SE4','SE5',
+    'PI1','PI2','PI3','PI4','PI5'
+  ];
+  const ALL_FIELDS = [...DEMO_FIELDS, ...LIKERT_FIELDS];
+  const CONSTRUCTS = {
+    EC: ['EC1','EC2','EC3','EC4','EC5'],
+    HC: ['HC1','HC2','HC3','HC4','HC5'],
+    PT: ['PT1','PT2','PT3','PT4','PT5'],
+    SN: ['SN1','SN2','SN3','SN4','SN5'],
+    SE: ['SE1','SE2','SE3','SE4','SE5'],
+    PI: ['PI1','PI2','PI3','PI4','PI5']
+  };
+
+  // In-memory storage (works in all environments)
+  let responsesData = [];
+  const STORAGE_KEY = 'sfcs-responses-v1';
+
+  // Try to load from window.storage (Claude artifact), fallback to in-memory
+  async function loadResponses() {
+    try {
+      if (window.storage) {
+        const result = await window.storage.get(STORAGE_KEY, true);
+        if (result && result.value) {
+          responsesData = JSON.parse(result.value);
+        }
+      }
+    } catch(e) {
+      // Use in-memory only
+    }
+    updateCounter();
+  }
+
+  async function saveResponses() {
+    try {
+      if (window.storage) {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(responsesData), true);
+      }
+    } catch(e) {
+      // In-memory only - still works for this session
+    }
+  }
+
+  // ─── Progress bar ──────────────────────────────────────────────────────────
+  function updateProgress() {
+    const groups = {};
+    document.querySelectorAll('input[type="radio"]').forEach(r => {
+      if (!groups[r.name]) groups[r.name] = false;
+      if (r.checked) groups[r.name] = true;
+    });
+    const total = Object.keys(groups).length;
+    const filled = Object.values(groups).filter(Boolean).length;
+    document.getElementById('progressFill').style.width = (filled / total * 100) + '%';
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', updateProgress);
+  });
+
+  // ─── Focus effect ──────────────────────────────────────────────────────────
+  document.querySelectorAll('.question-card').forEach(card => {
+    card.addEventListener('click', function() {
+      document.querySelectorAll('.question-card').forEach(c => c.classList.remove('focused'));
+      this.classList.add('focused');
+    });
+  });
+
+  // ─── Collect form values ───────────────────────────────────────────────────
+  function collectValues() {
+    const data = {};
+    ALL_FIELDS.forEach(name => {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      data[name] = checked ? checked.value : null;
+    });
+    return data;
+  }
+
+  // ─── Submit ────────────────────────────────────────────────────────────────
+  async function submitForm() {
+    const data = collectValues();
+    const unanswered = ALL_FIELDS.filter(f => !data[f]);
+    if (unanswered.length > 0) {
+      alert('Please answer all required questions before submitting.\n\nUnanswered: ' + unanswered.join(', '));
+      return;
+    }
+
+    // Compute construct means
+    Object.entries(CONSTRUCTS).forEach(([key, items]) => {
+      const vals = items.map(i => parseFloat(data[i]));
+      data[key + '_Mean'] = (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(3);
+    });
+
+    const entry = {
+      Respondent_ID: Date.now(),
+      Timestamp: new Date().toISOString().replace('T',' ').slice(0,19),
+      ...data
+    };
+
+    responsesData.push(entry);
+    await saveResponses();
+    updateCounter();
+
+    // Show success
+    document.getElementById('formContainer').querySelector('.form-header').style.display = 'none';
+    document.querySelectorAll('.section-header, .question-card, .required-note, .form-footer, .scale-instructions').forEach(el => el.style.display = 'none');
+    document.getElementById('successCard').classList.add('show');
+    document.getElementById('progressFill').style.width = '100%';
+    window.scrollTo(0, 0);
+  }
+
+  function fillAnother() {
+    clearForm();
+    document.getElementById('formContainer').querySelector('.form-header').style.display = '';
+    document.querySelectorAll('.section-header, .question-card, .required-note, .form-footer, .scale-instructions').forEach(el => el.style.display = '');
+    document.getElementById('successCard').classList.remove('show');
+    updateProgress();
+    window.scrollTo(0, 0);
+  }
+
+  function clearForm() {
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    updateProgress();
+  }
+
+  function updateCounter() {
+    document.getElementById('totalCount').textContent = responsesData.length;
+  }
+
+  // ─── Admin ────────────────────────────────────────────────────────────────
+  function toggleAdmin() {
+    const panel = document.getElementById('adminPanel');
+    panel.classList.toggle('show');
+    if (panel.classList.contains('show')) renderAdminPanel();
+  }
+
+  function renderAdminPanel() {
+    const n = responsesData.length;
+    // Stats
+    const statsHTML = `
+      <div class="stat-box"><div class="num">${n}</div><div class="lbl">Total Responses</div></div>
+      <div class="stat-box"><div class="num">37</div><div class="lbl">Questions</div></div>
+      <div class="stat-box"><div class="num">6</div><div class="lbl">Constructs</div></div>
+    `;
+    document.getElementById('statsArea').innerHTML = statsHTML;
+
+    // Table
+    const wrap = document.getElementById('tableWrap');
+    if (n === 0) {
+      wrap.innerHTML = '<p class="no-data">No responses yet. Share this survey to collect data!</p>';
+      return;
+    }
+    const cols = ['Respondent_ID','Timestamp',...DEMO_FIELDS,...LIKERT_FIELDS,'EC_Mean','HC_Mean','PT_Mean','SN_Mean','SE_Mean','PI_Mean'];
+    let html = '<table><thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+    responsesData.forEach(row => {
+      html += '<tr>' + cols.map(c => `<td>${row[c] ?? ''}</td>`).join('') + '</tr>';
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  }
+
+  function exportCSV() {
+    if (responsesData.length === 0) {
+      alert('No data to export yet. Collect some responses first!');
+      return;
+    }
+    const cols = ['Respondent_ID','Timestamp',...DEMO_FIELDS,...LIKERT_FIELDS,'EC_Mean','HC_Mean','PT_Mean','SN_Mean','SE_Mean','PI_Mean'];
+    let csv = cols.join(',') + '\n';
+    responsesData.forEach(row => {
+      csv += cols.map(c => `"${(row[c]??'').toString().replace(/"/g,'""')}"`).join(',') + '\n';
+    });
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'SustainableFood_Survey_Data.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function clearAllData() {
+    if (!confirm('Are you sure you want to DELETE all survey responses? This cannot be undone.')) return;
+    responsesData = [];
+    try {
+      if (window.storage) await window.storage.delete(STORAGE_KEY, true);
+    } catch(e) {}
+    updateCounter();
+    renderAdminPanel();
+  }
+
+  // ─── Init ──────────────────────────────────────────────────────────────────
+  loadResponses();
+</script>
+</body>
+</html>
