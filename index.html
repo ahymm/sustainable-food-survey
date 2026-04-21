@@ -30,396 +30,119 @@
     padding: 0 0 80px;
   }
 
-  /* Progress bar */
-  .progress-bar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 5px;
-    background: #d1e7d8;
-    z-index: 200;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--green-light), #52b788);
-    width: 0%;
-    transition: width 0.4s ease;
-  }
+  .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 5px; background: #d1e7d8; z-index: 200; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green-light), #52b788); width: 0%; transition: width 0.4s ease; }
 
-  /* Sticky counter */
   .sticky-counter {
-    position: fixed;
-    top: 5px; right: 16px;
-    background: var(--green);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 12px;
-    border-radius: 0 0 8px 8px;
-    z-index: 200;
-    font-family: 'DM Sans', sans-serif;
+    position: fixed; top: 5px; right: 16px;
+    background: var(--green); color: #fff;
+    font-size: 12px; font-weight: 500;
+    padding: 4px 12px; border-radius: 0 0 8px 8px;
+    z-index: 200; font-family: 'DM Sans', sans-serif;
     box-shadow: 0 2px 8px rgba(0,0,0,.2);
   }
 
-  .form-container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 24px 16px;
+  /* Save status indicator */
+  .save-status {
+    position: fixed; top: 5px; left: 16px;
+    font-size: 12px; font-weight: 500;
+    padding: 4px 12px; border-radius: 0 0 8px 8px;
+    z-index: 200; font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s;
   }
+  .save-status.saving { background: #f59e0b; color: #fff; }
+  .save-status.saved  { background: var(--green); color: #fff; }
+  .save-status.error  { background: #ef4444; color: #fff; }
+  .save-status.hidden { display: none; }
 
-  /* Header */
-  .form-header {
-    background: var(--white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    border-top: 8px solid var(--green);
-  }
+  .form-container { max-width: 700px; margin: 0 auto; padding: 24px 16px; }
+
+  .form-header { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 14px; border-top: 8px solid var(--green); }
   .form-header-inner { padding: 28px 28px 24px; }
-  .form-header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    color: var(--accent);
-    line-height: 1.35;
-    margin-bottom: 8px;
-  }
+  .form-header h1 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--accent); line-height: 1.35; margin-bottom: 8px; }
   .form-header .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
-  .author-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--muted);
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-  }
-  .author-info span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--green-faint);
-    border: 1px solid var(--green-pale);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
+  .author-info { display: flex; flex-wrap: wrap; gap: 10px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px; }
+  .author-info span { display: flex; align-items: center; gap: 5px; background: var(--green-faint); border: 1px solid var(--green-pale); padding: 4px 10px; border-radius: 20px; font-weight: 500; }
 
-  .required-note {
-    background: #fff8e1;
-    border: 1px solid #ffe082;
-    border-radius: 8px;
-    padding: 12px 20px;
-    margin-bottom: 14px;
-    font-size: 13px;
-    color: #795548;
-  }
+  .required-note { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px 20px; margin-bottom: 14px; font-size: 13px; color: #795548; }
   .required-note span { color: #e53935; }
 
-  /* Section header */
-  .section-header {
-    background: var(--green);
-    border-radius: 10px;
-    padding: 18px 24px;
-    margin-bottom: 14px;
-    color: #fff;
-  }
-  .section-header h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 17px;
-    font-weight: 400;
-    margin-bottom: 3px;
-  }
+  .section-header { background: var(--green); border-radius: 10px; padding: 18px 24px; margin-bottom: 14px; color: #fff; }
+  .section-header h2 { font-family: 'DM Serif Display', serif; font-size: 17px; font-weight: 400; margin-bottom: 3px; }
   .section-header p { font-size: 13px; opacity: 0.8; }
 
-  /* Question cards */
-  .question-card {
-    background: var(--white);
-    border-radius: 10px;
-    padding: 22px 24px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, border-left 0.2s;
-    border-left: 4px solid transparent;
-  }
+  .question-card { background: var(--white); border-radius: 10px; padding: 22px 24px; margin-bottom: 12px; box-shadow: var(--shadow); transition: box-shadow 0.2s, border-left 0.2s; border-left: 4px solid transparent; }
   .question-card:hover { box-shadow: var(--shadow-hover); }
-  .question-card.focused {
-    box-shadow: var(--shadow-hover);
-    border-left-color: var(--green-light);
-  }
+  .question-card.focused { box-shadow: var(--shadow-hover); border-left-color: var(--green-light); }
 
-  .question-label {
-    font-size: 14.5px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 16px;
-    line-height: 1.55;
-  }
+  .question-label { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 16px; line-height: 1.55; }
   .question-label .req { color: #e53935; margin-left: 3px; }
-  .question-label .q-code {
-    font-size: 11px;
-    color: var(--green);
-    font-weight: 600;
-    margin-right: 6px;
-    background: var(--green-pale);
-    padding: 2px 7px;
-    border-radius: 4px;
-  }
+  .question-label .q-code { font-size: 11px; color: var(--green); font-weight: 600; margin-right: 6px; background: var(--green-pale); padding: 2px 7px; border-radius: 4px; }
 
-  /* Radio/checkbox */
   .options-list { display: flex; flex-direction: column; gap: 2px; }
-  .option-item {
-    display: flex;
-    align-items: center;
-    padding: 9px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s;
-    gap: 12px;
-  }
+  .option-item { display: flex; align-items: center; padding: 9px 12px; border-radius: 6px; cursor: pointer; transition: background 0.15s; gap: 12px; }
   .option-item:hover { background: var(--green-faint); }
-  .option-item input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 20px; height: 20px;
-    border: 2px solid #9ca3af;
-    border-radius: 50%;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .option-item input[type="radio"]:checked {
-    border-color: var(--green);
-    background: var(--green);
-    box-shadow: inset 0 0 0 4px #fff;
-  }
+  .option-item input[type="radio"] { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid #9ca3af; border-radius: 50%; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .option-item input[type="radio"]:checked { border-color: var(--green); background: var(--green); box-shadow: inset 0 0 0 4px #fff; }
   .option-item label { font-size: 14px; color: var(--text); cursor: pointer; user-select: none; }
 
-  /* Construct header */
-  .construct-header {
-    background: linear-gradient(135deg, var(--green-faint), #e8f5e9);
-    border: 1px solid var(--green-pale);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--green);
-  }
+  .construct-header { background: linear-gradient(135deg, var(--green-faint), #e8f5e9); border: 1px solid var(--green-pale); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 14px; font-weight: 600; color: var(--green); }
 
-  /* Likert scale */
   .likert-scale { margin-top: 8px; }
-  .scale-options {
-    display: flex;
-    gap: 6px;
-    justify-content: space-between;
-  }
-  .scale-option {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
+  .scale-options { display: flex; gap: 6px; justify-content: space-between; }
+  .scale-option { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .scale-option label { font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; }
-  .scale-option input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 24px; height: 24px;
-    border: 2px solid #d1d5db;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s, transform 0.1s;
-  }
+  .scale-option input[type="radio"] { appearance: none; -webkit-appearance: none; width: 24px; height: 24px; border: 2px solid #d1d5db; border-radius: 50%; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.1s; }
   .scale-option input[type="radio"]:hover { border-color: var(--green-light); transform: scale(1.15); }
-  .scale-option input[type="radio"]:checked {
-    border-color: var(--green);
-    background: var(--green);
-    box-shadow: inset 0 0 0 5px #fff;
-  }
-  .scale-legend {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .scale-instructions {
-    background: #f9fafb;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 18px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: var(--muted);
-  }
+  .scale-option input[type="radio"]:checked { border-color: var(--green); background: var(--green); box-shadow: inset 0 0 0 5px #fff; }
+  .scale-legend { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--muted); }
+  .scale-instructions { background: #f9fafb; border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 16px; font-size: 13px; color: var(--muted); }
   .scale-instructions strong { color: var(--text); }
   .likert-block { margin-bottom: 22px; }
   .likert-block:last-child { margin-bottom: 0; }
 
-  /* Submit footer */
-  .form-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-    margin-top: 4px;
-  }
-  .submit-btn {
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 32px;
-    font-size: 15px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    letter-spacing: 0.3px;
-  }
+  .form-footer { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; margin-top: 4px; }
+  .submit-btn { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 12px 32px; font-size: 15px; font-family: 'DM Sans', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px; }
   .submit-btn:hover { background: var(--accent); transform: translateY(-1px); }
-  .clear-btn {
-    color: var(--muted);
-    background: none;
-    border: 1px solid var(--border);
-    font-size: 14px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    padding: 10px 18px;
-    border-radius: 8px;
-    transition: background 0.15s;
-  }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .clear-btn { color: var(--muted); background: none; border: 1px solid var(--border); font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 10px 18px; border-radius: 8px; transition: background 0.15s; }
   .clear-btn:hover { background: var(--green-faint); color: var(--green); }
 
-  /* Success */
-  .success-card {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 48px 32px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    display: none;
-  }
+  .success-card { background: var(--white); border-radius: 12px; padding: 48px 32px; text-align: center; box-shadow: var(--shadow); display: none; }
   .success-card.show { display: block; animation: popIn 0.4s ease; }
-  @keyframes popIn {
-    0% { transform: scale(0.92); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .success-icon {
-    width: 72px; height: 72px;
-    background: linear-gradient(135deg, var(--green-light), var(--green));
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 36px; color: #fff;
-    box-shadow: 0 4px 20px rgba(45,106,79,0.35);
-  }
-  .success-card h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
+  @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .success-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--green-light), var(--green)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: #fff; box-shadow: 0 4px 20px rgba(45,106,79,0.35); }
+  .success-card h2 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--accent); margin-bottom: 10px; }
   .success-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
 
-  /* Admin Panel */
-  .admin-toggle {
-    text-align: center;
-    margin-top: 32px;
-  }
-  .admin-toggle button {
-    background: none;
-    border: 1px dashed #9ca3af;
-    color: var(--muted);
-    font-size: 12px;
-    padding: 8px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
+  .admin-toggle { text-align: center; margin-top: 32px; }
+  .admin-toggle button { background: none; border: 1px dashed #9ca3af; color: var(--muted); font-size: 12px; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
   .admin-toggle button:hover { background: #f3f4f6; color: var(--text); }
 
-  .admin-panel {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 24px;
-    margin-top: 14px;
-    box-shadow: var(--shadow);
-    display: none;
-    border-top: 4px solid var(--green);
-  }
+  .admin-panel { background: var(--white); border-radius: 12px; padding: 24px; margin-top: 14px; box-shadow: var(--shadow); display: none; border-top: 4px solid var(--green); }
   .admin-panel.show { display: block; }
-  .admin-panel h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-  .admin-panel .stats {
-    display: flex;
-    gap: 12px;
-    margin: 14px 0;
-    flex-wrap: wrap;
-  }
-  .admin-panel .stat-box {
-    background: var(--green-faint);
-    border: 1px solid var(--green-pale);
-    border-radius: 8px;
-    padding: 12px 18px;
-    text-align: center;
-    flex: 1;
-    min-width: 100px;
-  }
+  .admin-panel h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--accent); margin-bottom: 6px; }
+  .admin-panel .stats { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .admin-panel .stat-box { background: var(--green-faint); border: 1px solid var(--green-pale); border-radius: 8px; padding: 12px 18px; text-align: center; flex: 1; min-width: 100px; }
   .stat-box .num { font-size: 28px; font-weight: 700; color: var(--green); }
   .stat-box .lbl { font-size: 12px; color: var(--muted); }
-  .export-btn {
-    background: #1d6a3e;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 11px 26px;
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-right: 8px;
-  }
+  .export-btn { background: #1d6a3e; color: #fff; border: none; border-radius: 8px; padding: 11px 26px; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-right: 8px; }
   .export-btn:hover { background: var(--accent); }
-  .clear-data-btn {
-    background: none;
-    color: #e53935;
-    border: 1px solid #ffcdd2;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+  .clear-data-btn { background: none; color: #e53935; border: 1px solid #ffcdd2; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
   .clear-data-btn:hover { background: #fff3f3; }
-  .responses-table-wrap {
-    overflow-x: auto;
-    margin-top: 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
+  .responses-table-wrap { overflow-x: auto; margin-top: 16px; border: 1px solid var(--border); border-radius: 8px; }
   table { border-collapse: collapse; width: 100%; font-size: 12px; }
-  th {
-    background: var(--green);
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 500;
-    white-space: nowrap;
-    position: sticky;
-    top: 0;
-  }
+  th { background: var(--green); color: #fff; padding: 8px 10px; text-align: left; font-weight: 500; white-space: nowrap; position: sticky; top: 0; }
   td { padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
   tr:nth-child(even) { background: #f9fafb; }
   .no-data { text-align: center; color: var(--muted); font-size: 14px; padding: 24px; }
+
+  /* Gist ID config box */
+  .gist-config { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; font-size: 13px; }
+  .gist-config strong { color: #92400e; display: block; margin-bottom: 6px; }
+  .gist-config input { width: 100%; border: 1px solid #fcd34d; border-radius: 6px; padding: 7px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; margin-top: 4px; }
+  .gist-config button { margin-top: 8px; background: #92400e; color: #fff; border: none; border-radius: 6px; padding: 7px 16px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
 
   @media(max-width:500px) {
     .scale-options { gap: 3px; }
@@ -432,7 +155,8 @@
 <body>
 
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-<div class="sticky-counter" id="stickyCounter">📊 <span id="totalCount">0</span> responses</div>
+<div class="sticky-counter">📊 <span id="totalCount">0</span> responses</div>
+<div class="save-status hidden" id="saveStatus"></div>
 
 <div class="form-container" id="formContainer">
 
@@ -536,7 +260,7 @@
     1 = Strongly Disagree &nbsp;|&nbsp; 2 = Disagree &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Agree &nbsp;|&nbsp; 5 = Strongly Agree
   </div>
 
-  <!-- Construct 1: Environmental Concern -->
+  <!-- Construct 1 -->
   <div class="question-card">
     <div class="construct-header">🌿 Construct 1: Environmental Concern</div>
     <div class="likert-block">
@@ -591,7 +315,7 @@
     </div>
   </div>
 
-  <!-- Construct 2: Health Consciousness -->
+  <!-- Construct 2 -->
   <div class="question-card">
     <div class="construct-header">🥗 Construct 2: Health Consciousness</div>
     <div class="likert-block">
@@ -646,7 +370,7 @@
     </div>
   </div>
 
-  <!-- Construct 3: Perceived Trust -->
+  <!-- Construct 3 -->
   <div class="question-card">
     <div class="construct-header">🔒 Construct 3: Perceived Trust</div>
     <div class="likert-block">
@@ -701,7 +425,7 @@
     </div>
   </div>
 
-  <!-- Construct 4: Social Norms -->
+  <!-- Construct 4 -->
   <div class="question-card">
     <div class="construct-header">👥 Construct 4: Social Norms</div>
     <div class="likert-block">
@@ -756,7 +480,7 @@
     </div>
   </div>
 
-  <!-- Construct 5: Self Efficacy -->
+  <!-- Construct 5 -->
   <div class="question-card">
     <div class="construct-header">💪 Construct 5: Self Efficacy</div>
     <div class="likert-block">
@@ -811,7 +535,7 @@
     </div>
   </div>
 
-  <!-- Construct 6: Purchase Intention -->
+  <!-- Construct 6 -->
   <div class="question-card">
     <div class="construct-header">🛒 Construct 6: Purchase Intention</div>
     <div class="likert-block">
@@ -868,7 +592,7 @@
 
   <!-- Footer -->
   <div class="form-footer">
-    <button class="submit-btn" onclick="submitForm()">Submit Response</button>
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">Submit Response</button>
     <button class="clear-btn" onclick="clearForm()">Clear Form</button>
   </div>
 
@@ -876,7 +600,7 @@
   <div class="success-card" id="successCard">
     <div class="success-icon">✓</div>
     <h2>Response Recorded!</h2>
-    <p>Thank you for completing the survey on Sustainable Food Consumer Intentions.<br>Your response has been saved successfully.</p>
+    <p>Thank you for completing the survey on Sustainable Food Consumer Intentions.<br>Your response has been saved to GitHub successfully.</p>
     <br>
     <button class="submit-btn" onclick="fillAnother()" style="background:var(--green-light);">Fill Another Response</button>
   </div>
@@ -889,10 +613,18 @@
   <!-- Admin Panel -->
   <div class="admin-panel" id="adminPanel">
     <h3>📊 Admin Dashboard</h3>
-    <p style="font-size:13px;color:var(--muted);">All collected survey responses — export to CSV for Excel analysis.</p>
+    <p style="font-size:13px;color:var(--muted);">Data is saved to GitHub Gist automatically after each submission.</p>
+
+    <!-- Gist ID config -->
+    <div class="gist-config" id="gistConfigBox">
+      <strong>⚙️ GitHub Gist ID (auto-filled after first submission)</strong>
+      <input type="text" id="gistIdInput" placeholder="Gist ID will appear here after first save..." readonly>
+    </div>
+
     <div class="stats" id="statsArea"></div>
     <div style="margin-top:12px;">
       <button class="export-btn" onclick="exportCSV()">⬇ Download CSV (Excel)</button>
+      <button class="export-btn" style="background:#1565c0;" onclick="loadFromGithub().then(renderAdminPanel)">🔄 Refresh from GitHub</button>
       <button class="clear-data-btn" onclick="clearAllData()">🗑 Clear All Data</button>
     </div>
     <div class="responses-table-wrap" id="tableWrap" style="max-height:340px;overflow-y:auto;">
@@ -900,10 +632,18 @@
     </div>
   </div>
 
-</div><!-- end form-container -->
+</div>
 
 <script>
-  // ─── All field names ───────────────────────────────────────────────────────
+  // ─── Config ────────────────────────────────────────────────────────────────
+  const GH_TOKEN     = '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';
+  const GIST_FILENAME = 'sfcs_survey_data.json';
+  const GIST_ID_KEY   = 'sfcs-gist-id';
+
+  let responsesData = [];
+  let gistId = null;
+
+  // ─── Fields ────────────────────────────────────────────────────────────────
   const DEMO_FIELDS = ['gender','age','education','income','occupation','household','area'];
   const LIKERT_FIELDS = [
     'EC1','EC2','EC3','EC4','EC5',
@@ -915,41 +655,128 @@
   ];
   const ALL_FIELDS = [...DEMO_FIELDS, ...LIKERT_FIELDS];
   const CONSTRUCTS = {
-    EC: ['EC1','EC2','EC3','EC4','EC5'],
-    HC: ['HC1','HC2','HC3','HC4','HC5'],
-    PT: ['PT1','PT2','PT3','PT4','PT5'],
-    SN: ['SN1','SN2','SN3','SN4','SN5'],
-    SE: ['SE1','SE2','SE3','SE4','SE5'],
-    PI: ['PI1','PI2','PI3','PI4','PI5']
+    EC:['EC1','EC2','EC3','EC4','EC5'],
+    HC:['HC1','HC2','HC3','HC4','HC5'],
+    PT:['PT1','PT2','PT3','PT4','PT5'],
+    SN:['SN1','SN2','SN3','SN4','SN5'],
+    SE:['SE1','SE2','SE3','SE4','SE5'],
+    PI:['PI1','PI2','PI3','PI4','PI5']
   };
 
-  // In-memory storage (works in all environments)
-  let responsesData = [];
-  const GH_TOKEN  = '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';
-  const STORAGE_KEY = 'sfcs-responses-v1';
+  // ─── Save status UI ────────────────────────────────────────────────────────
+  function showStatus(msg, type) {
+    const el = document.getElementById('saveStatus');
+    el.textContent = msg;
+    el.className = 'save-status ' + type;
+    if (type === 'saved') setTimeout(() => el.className = 'save-status hidden', 3000);
+  }
 
-  // Try to load from window.storage (Claude artifact), fallback to in-memory
-  async function loadResponses() {
+  // ─── GitHub Gist: Load ─────────────────────────────────────────────────────
+  async function loadFromGithub() {
+    // Try to get stored gist ID from localStorage (fallback)
+    if (!gistId) {
+      gistId = localStorage.getItem(GIST_ID_KEY) || null;
+    }
+
+    if (!gistId) {
+      // Search existing gists for our filename
+      try {
+        const res = await fetch('https://api.github.com/gists?per_page=50', {
+          headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (res.ok) {
+          const gists = await res.json();
+          const found = gists.find(g => g.files && g.files[GIST_FILENAME]);
+          if (found) {
+            gistId = found.id;
+            localStorage.setItem(GIST_ID_KEY, gistId);
+          }
+        }
+      } catch(e) { console.warn('Could not search gists:', e); }
+    }
+
+    if (!gistId) return; // No gist yet — first time
+
     try {
-      if (window.storage) {
-        const result = await window.storage.get(STORAGE_KEY, true);
-        if (result && result.value) {
-          responsesData = JSON.parse(result.value);
+      const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+        headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (res.ok) {
+        const gist = await res.json();
+        const raw = gist.files[GIST_FILENAME]?.content;
+        if (raw) {
+          responsesData = JSON.parse(raw);
+          updateCounter();
+          updateGistIdDisplay();
+        }
+      }
+    } catch(e) { console.warn('Load from GitHub failed:', e); }
+  }
+
+  // ─── GitHub Gist: Save ─────────────────────────────────────────────────────
+  async function saveToGithub() {
+    showStatus('💾 Saving to GitHub...', 'saving');
+    const content = JSON.stringify(responsesData, null, 2);
+
+    try {
+      if (!gistId) {
+        // Create new gist
+        const res = await fetch('https://api.github.com/gists', {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${GH_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            description: 'Sustainable Food Consumer Survey — Nouman Khalid (2020-ag-2558)',
+            public: false,
+            files: { [GIST_FILENAME]: { content } }
+          })
+        });
+        if (res.ok) {
+          const gist = await res.json();
+          gistId = gist.id;
+          localStorage.setItem(GIST_ID_KEY, gistId);
+          updateGistIdDisplay();
+          showStatus('✅ Saved to GitHub!', 'saved');
+        } else {
+          const err = await res.json();
+          console.error('GitHub create error:', err);
+          showStatus('❌ GitHub save failed', 'error');
+        }
+      } else {
+        // Update existing gist
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `token ${GH_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            files: { [GIST_FILENAME]: { content } }
+          })
+        });
+        if (res.ok) {
+          showStatus('✅ Saved to GitHub!', 'saved');
+        } else {
+          const err = await res.json();
+          console.error('GitHub update error:', err);
+          showStatus('❌ GitHub update failed', 'error');
         }
       }
     } catch(e) {
-      // Use in-memory only
+      console.error('Network error saving to GitHub:', e);
+      showStatus('❌ Network error', 'error');
     }
-    updateCounter();
   }
 
-  async function saveResponses() {
-    try {
-      if (window.storage) {
-        await window.storage.set(STORAGE_KEY, JSON.stringify(responsesData), true);
-      }
-    } catch(e) {
-      // In-memory only - still works for this session
+  function updateGistIdDisplay() {
+    const input = document.getElementById('gistIdInput');
+    if (input && gistId) {
+      input.value = gistId;
+      input.title = `https://gist.github.com/${gistId}`;
     }
   }
 
@@ -964,10 +791,7 @@
     const filled = Object.values(groups).filter(Boolean).length;
     document.getElementById('progressFill').style.width = (filled / total * 100) + '%';
   }
-
-  document.querySelectorAll('input[type="radio"]').forEach(r => {
-    r.addEventListener('change', updateProgress);
-  });
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', updateProgress));
 
   // ─── Focus effect ──────────────────────────────────────────────────────────
   document.querySelectorAll('.question-card').forEach(card => {
@@ -977,7 +801,7 @@
     });
   });
 
-  // ─── Collect form values ───────────────────────────────────────────────────
+  // ─── Collect values ────────────────────────────────────────────────────────
   function collectValues() {
     const data = {};
     ALL_FIELDS.forEach(name => {
@@ -1009,10 +833,19 @@
     };
 
     responsesData.push(entry);
-    await saveResponses();
     updateCounter();
 
-    // Show success
+    // Disable button during save
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    await saveToGithub();
+
+    btn.disabled = false;
+    btn.textContent = 'Submit Response';
+
+    // Show success screen
     document.getElementById('formContainer').querySelector('.form-header').style.display = 'none';
     document.querySelectorAll('.section-header, .question-card, .required-note, .form-footer, .scale-instructions').forEach(el => el.style.display = 'none');
     document.getElementById('successCard').classList.add('show');
@@ -1038,7 +871,7 @@
     document.getElementById('totalCount').textContent = responsesData.length;
   }
 
-  // ─── Admin ────────────────────────────────────────────────────────────────
+  // ─── Admin ─────────────────────────────────────────────────────────────────
   function toggleAdmin() {
     const panel = document.getElementById('adminPanel');
     panel.classList.toggle('show');
@@ -1046,16 +879,15 @@
   }
 
   function renderAdminPanel() {
+    updateGistIdDisplay();
     const n = responsesData.length;
-    // Stats
-    const statsHTML = `
+    document.getElementById('statsArea').innerHTML = `
       <div class="stat-box"><div class="num">${n}</div><div class="lbl">Total Responses</div></div>
       <div class="stat-box"><div class="num">37</div><div class="lbl">Questions</div></div>
       <div class="stat-box"><div class="num">6</div><div class="lbl">Constructs</div></div>
+      <div class="stat-box"><div class="num">${gistId ? '✅' : '⏳'}</div><div class="lbl">GitHub Sync</div></div>
     `;
-    document.getElementById('statsArea').innerHTML = statsHTML;
 
-    // Table
     const wrap = document.getElementById('tableWrap');
     if (n === 0) {
       wrap.innerHTML = '<p class="no-data">No responses yet. Share this survey to collect data!</p>';
@@ -1071,10 +903,7 @@
   }
 
   function exportCSV() {
-    if (responsesData.length === 0) {
-      alert('No data to export yet. Collect some responses first!');
-      return;
-    }
+    if (responsesData.length === 0) { alert('No data to export yet!'); return; }
     const cols = ['Respondent_ID','Timestamp',...DEMO_FIELDS,...LIKERT_FIELDS,'EC_Mean','HC_Mean','PT_Mean','SN_Mean','SE_Mean','PI_Mean'];
     let csv = cols.join(',') + '\n';
     responsesData.forEach(row => {
@@ -1083,24 +912,20 @@
     const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = 'SustainableFood_Survey_Data.csv';
-    a.click();
+    a.href = url; a.download = 'SustainableFood_Survey_Data.csv'; a.click();
     URL.revokeObjectURL(url);
   }
 
   async function clearAllData() {
     if (!confirm('Are you sure you want to DELETE all survey responses? This cannot be undone.')) return;
     responsesData = [];
-    try {
-      if (window.storage) await window.storage.delete(STORAGE_KEY, true);
-    } catch(e) {}
+    await saveToGithub();
     updateCounter();
     renderAdminPanel();
   }
 
   // ─── Init ──────────────────────────────────────────────────────────────────
-  loadResponses();
+  loadFromGithub();
 </script>
 </body>
 </html>
