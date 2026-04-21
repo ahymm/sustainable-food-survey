@@ -634,6 +634,37 @@
 
 </div>
 
+
+
+ <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 🔑 tumhara config
+const firebaseConfig = {
+  apiKey: "AIzaSyAUvs_Y-3Roox4uDho0FGfWKMF8Leq54Vc",
+  authDomain: "a123475454.firebaseapp.com",
+  projectId: "a123475454",
+  storageBucket: "a123475454.firebasestorage.app",
+  messagingSenderId: "245794355087",
+  appId: "1:245794355087:web:48210b0f055846485f7dfa",
+  measurementId: "G-EJPP6285K7"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 👇 GLOBAL FUNCTION
+window.saveToFirebase = async function(data) {
+  try {
+    await addDoc(collection(db, "responses"), data);
+    showStatus('✅ Saved to Firebase!', 'saved');
+  } catch (e) {
+    console.error(e);
+    showStatus('❌ Error saving', 'error');
+  }
+};
+</script>
 <script>
   // ─── Config ────────────────────────────────────────────────────────────────
   const GH_TOKEN     = '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';
@@ -840,7 +871,7 @@
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
-    await saveToGithub();
+    await saveToFirebase(entry);
 
     btn.disabled = false;
     btn.textContent = 'Submit Response';
